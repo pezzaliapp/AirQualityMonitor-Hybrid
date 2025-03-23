@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+  <title>AirQuality Monitor Hybrid</title>
+</head>
+<body>
+  <h1>AirQuality Monitor – Hybrid Edition</h1>
+  <div class="dashboard">
+    <section id="air">
+      <h2>Qualità dell'Aria</h2>
+      <p>PM2.5: <span id="pm25">--</span> µg/m³</p>
+      <p>VOC: <span id="voc">--</span> ppm</p>
+      <p>CO₂eq: <span id="co2">--</span> ppm</p>
+    </section>
+    <section id="env">
+      <h2>Ambiente</h2>
+      <p>Temperatura: <span id="temp">--</span> °C</p>
+      <p>Umidità: <span id="hum">--</span> %</p>
+      <p>Pressione: <span id="press">--</span> hPa</p>
+    </section>
+    <section id="solar">
+      <h2>Energia Solare</h2>
+      <p>Luce: <span id="light">--</span> lux</p>
+      <p>Carica solare: <span id="charge">--</span></p>
+    </section>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
