@@ -1,11 +1,11 @@
 
 {
   "name": "AirQuality Monitor Hybrid",
-  "short_name": "AirQualityMonitor",
+  "short_name": "AirMonitor",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#f7f7f7",
-  "description": "Monitor della qualità dell'aria e dell'energia solare",
+  "description": "Monitor della qualità dell'aria e dell'energia solare con ESP32/Arduino",
   "icons": [
     {
       "src": "icon/AirQualityMonitor-192.png",

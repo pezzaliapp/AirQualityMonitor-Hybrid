@@ -8,6 +8,14 @@ body {
 h1 {
   text-align: center;
 }
+.status-bar {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  background: #e3e3e3;
+  padding: 10px;
+  border-radius: 8px;
+}
 .dashboard {
   display: flex;
   flex-wrap: wrap;
