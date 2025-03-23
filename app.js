@@ -44,6 +44,7 @@ function updateSimulation() {
 }
 
 function display(data) {
+  updateAlerts(data);
   const keys = ["pm25", "voc", "co2", "temp", "hum", "press", "light", "charge"];
   keys.forEach(k => {
     const fixed = data.fisso?.[k] ?? "--";
@@ -69,3 +70,18 @@ function fetchData() {
 
 setInterval(fetchData, 5000);
 fetchData();
+
+function updateAlerts(data) {
+  const pm25 = data.fisso?.pm25 ?? 0;
+  const alertBox = document.getElementById("alert-box");
+  if (pm25 <= 25) {
+    alertBox.textContent = "Qualità dell'aria buona";
+    alertBox.style.backgroundColor = "#c8e6c9"; // Verde
+  } else if (pm25 <= 50) {
+    alertBox.textContent = "Qualità dell'aria moderata";
+    alertBox.style.backgroundColor = "#fff9c4"; // Giallo
+  } else {
+    alertBox.textContent = "Qualità dell'aria scarsa";
+    alertBox.style.backgroundColor = "#ffcdd2"; // Rosso
+  }
+}
