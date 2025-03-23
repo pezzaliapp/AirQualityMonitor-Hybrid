@@ -5,12 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
-  <title>AirQuality Monitor – Hybrid Edition</title>
+  <title>AirQuality Monitor – Firebase Edition</title>
 </head>
 <body>
-  <h1>AirQuality Monitor – Hybrid Edition</h1>
+  <h1>AirQuality Monitor – Firebase Edition</h1>
   <div class="status-bar">
     <p>🛰 Modalità: <span id="mode">Simulazione</span></p>
+    <label>
+      <input type="checkbox" id="toggleMode" />
+      Usa Firebase
+    </label>
     <p>⚡ Alimentazione: <span id="power">USB</span></p>
     <p>🌐 Connessione: <span id="connection">Offline</span></p>
     <p>🌍 Ambiente: <span id="environment">Interno</span></p>
@@ -18,22 +22,24 @@
   <div class="dashboard">
     <section id="air">
       <h2>Qualità dell'Aria</h2>
-      <p>PM2.5: <span id="pm25">--</span> µg/m³</p>
-      <p>VOC: <span id="voc">--</span> ppm</p>
-      <p>CO₂eq: <span id="co2">--</span> ppm</p>
+      <p>PM2.5 (Fisso/Mobile): <span id="pm25">-- / --</span></p>
+      <p>VOC (Fisso/Mobile): <span id="voc">-- / --</span></p>
+      <p>CO₂eq (Fisso/Mobile): <span id="co2">-- / --</span></p>
     </section>
     <section id="env">
       <h2>Ambiente</h2>
-      <p>Temperatura: <span id="temp">--</span> °C</p>
-      <p>Umidità: <span id="hum">--</span> %</p>
-      <p>Pressione: <span id="press">--</span> hPa</p>
+      <p>Temperatura: <span id="temp">-- / --</span> °C</p>
+      <p>Umidità: <span id="hum">-- / --</span> %</p>
+      <p>Pressione: <span id="press">-- / --</span> hPa</p>
     </section>
     <section id="solar">
       <h2>Energia Solare</h2>
-      <p>Luce: <span id="light">--</span> lux</p>
-      <p>Carica solare: <span id="charge">--</span></p>
+      <p>Luce: <span id="light">-- / --</span> lux</p>
+      <p>Carica solare: <span id="charge">-- / --</span></p>
     </section>
   </div>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
