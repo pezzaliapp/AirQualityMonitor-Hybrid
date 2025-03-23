@@ -1,4 +1,3 @@
-
 const firebaseConfig = {
   apiKey: "AIzaSyApWxpeL4qR3YXyTLqYEykaRSvN7n_ZFFQ",
   authDomain: "airqualitymonitor-hybrid.firebaseapp.com",
@@ -72,7 +71,6 @@ function fetchData() {
   }
 }
 
-// Chart.js setup
 const labels = Array.from({length: 10}, (_, i) => `T-${9 - i}s`);
 function createChart(id, label, colors) {
   return new Chart(document.getElementById(id).getContext('2d'), {

@@ -1,7 +1,7 @@
 
 self.addEventListener("install", e => {
   e.waitUntil(
-    caches.open("airquality-complete").then(cache => {
+    caches.open("airquality-fixed").then(cache => {
       return cache.addAll(["index.html", "style.css", "app.js"]);
     })
   );
