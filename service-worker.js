@@ -1,15 +1,9 @@
-
 self.addEventListener("install", e => {
-  e.waitUntil(
-    caches.open("airquality-fixed").then(cache => {
-      return cache.addAll(["index.html", "style.css", "app.js"]);
-    })
-  );
+  console.log("Service Worker installed");
+  e.waitUntil(self.skipWaiting());
 });
-self.addEventListener("fetch", e => {
-  e.respondWith(
-    caches.match(e.request).then(response => {
-      return response || fetch(e.request);
-    })
-  );
+
+self.addEventListener("activate", e => {
+  console.log("Service Worker activated");
+  e.waitUntil(self.clients.claim());
 });

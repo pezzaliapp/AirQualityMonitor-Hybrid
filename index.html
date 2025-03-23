@@ -2,43 +2,39 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AirQuality Monitor – Semplice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AirQuality Monitor – Firebase Edition</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>AirQuality Monitor – Firebase</h1>
-
-  <!-- Sezione per scegliere Simulazione o Firebase -->
-  <div>
-    <p>Modalità: <span id="mode">Simulazione</span></p>
-    <label>
-      <input type="checkbox" id="toggleMode">
-      Usa Firebase
-    </label>
+  <h1>AirQuality Monitor – Firebase Edition</h1>
+  <div class="status-bar">
+    🧪 Modalità: <span id="mode">Simulazione</span>
+    <label><input type="checkbox" id="toggleMode" /> Usa Firebase</label>
+    ⚡ Alimentazione: <span id="power">USB</span>
+    🌐 Connessione: <span id="conn">Offline</span>
+    🌍 Ambiente: <span id="env">Interno</span>
   </div>
-
-  <!-- Sezione per visualizzare i dati (Fisso/Mobile) -->
-  <div>
-    <h2>Qualità dell'Aria</h2>
-    <p>PM2.5 (Fisso/Mobile): <span id="pm25">-- / --</span></p>
-    <p>VOC (Fisso/Mobile): <span id="voc">-- / --</span></p>
-    <p>CO₂eq (Fisso/Mobile): <span id="co2">-- / --</span></p>
-
-    <h2>Ambiente</h2>
-    <p>Temperatura: <span id="temp">-- / --</span> °C</p>
-    <p>Umidità: <span id="hum">-- / --</span> %</p>
-    <p>Pressione: <span id="press">-- / --</span> hPa</p>
-
-    <h2>Energia Solare</h2>
-    <p>Luce: <span id="light">-- / --</span> lux</p>
-    <p>Carica solare: <span id="charge">-- / --</span></p>
+  <div class="grid">
+    <div class="card">
+      <h2>Qualità dell'Aria</h2>
+      <p>PM2.5 (Fisso/Mobile): <span id="pm25">-- / --</span></p>
+      <p>VOC (Fisso/Mobile): <span id="voc">-- / --</span></p>
+      <p>CO₂eq (Fisso/Mobile): <span id="co2">-- / --</span></p>
+    </div>
+    <div class="card">
+      <h2>Ambiente</h2>
+      <p>Temperatura: <span id="temp">-- / --</span> °C</p>
+      <p>Umidità: <span id="hum">-- / --</span> %</p>
+      <p>Pressione: <span id="press">-- / --</span> hPa</p>
+    </div>
+    <div class="card">
+      <h2>Energia Solare</h2>
+      <p>Luce: <span id="light">-- / --</span> lux</p>
+      <p>Carica solare: <span id="charge">-- / --</span></p>
+    </div>
   </div>
-
-  <!-- Caricamento delle librerie Firebase v8 -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
-  <!-- Il tuo file app.js -->
   <script src="app.js"></script>
 </body>
 </html>

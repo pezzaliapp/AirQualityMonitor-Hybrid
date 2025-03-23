@@ -1,11 +1,9 @@
 {
-  "name": "AirQuality Monitor Completa",
-  "short_name": "AQM",
-  "start_url": "index.html",
+  "name": "AirQuality Monitor",
+  "short_name": "AirQuality",
+  "start_url": ".",
   "display": "standalone",
-  "background_color": "#f7f7f7",
-  "icons": [
-    { "src": "icon/AirQualityMonitor-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icon/AirQualityMonitor-512.png", "sizes": "512x512", "type": "image/png" }
-  ]
+  "background_color": "#ffffff",
+  "description": "PWA per monitoraggio qualità dell'aria con dati da ESP32 o simulazione.",
+  "icons": []
 }
