@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+  <title>AirQuality Monitor – Completa</title>
+</head>
+<body>
+  <h1>AirQuality Monitor – Firebase + Grafici</h1>
+  <div class="status-bar">
+    <p>🛰 Modalità: <span id="mode">Simulazione</span></p>
+    <label>
+      <input type="checkbox" id="toggleMode" />
+      Usa Firebase
+    </label>
+    <p>⚡ Alimentazione: <span id="power">USB</span></p>
+    <p>🌐 Connessione: <span id="connection">Offline</span></p>
+    <p>🌍 Ambiente: <span id="environment">Interno</span></p>
+  </div>
+
+  <div class="dashboard">
+    <section>
+      <h2>Qualità dell'Aria</h2>
+      <p>PM2.5 (Fisso/Mobile): <span id="pm25">-- / --</span></p>
+      <p>VOC (Fisso/Mobile): <span id="voc">-- / --</span></p>
+      <p>CO₂eq (Fisso/Mobile): <span id="co2">-- / --</span></p>
+      <canvas id="chartPM"></canvas>
+    </section>
+    <section>
+      <h2>Ambiente</h2>
+      <p>Temperatura: <span id="temp">-- / --</span> °C</p>
+      <p>Umidità: <span id="hum">-- / --</span> %</p>
+      <p>Pressione: <span id="press">-- / --</span> hPa</p>
+      <canvas id="chartTemp"></canvas>
+    </section>
+    <section>
+      <h2>Energia Solare</h2>
+      <p>Luce: <span id="light">-- / --</span> lux</p>
+      <p>Carica solare: <span id="charge">-- / --</span></p>
+      <canvas id="chartCO2"></canvas>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
