@@ -1,44 +1,51 @@
-// Configurazione Firebase del tuo progetto
+// ======================
+// CONFIGURAZIONE FIREBASE
+// ======================
 const firebaseConfig = {
   apiKey: "CHIAVE_API",
-  authDomain: "tuo-progetto.firebaseapp.com",
-  projectId: "tuo-progetto",
-  storageBucket: "tuo-progetto.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef",
-  databaseURL: "https://tuo-progetto-default-rtdb.europe-west1.firebasedatabase.app"
+  authDomain: "airqualitymonitor-hybrid.firebaseapp.com",
+  projectId: "airqualitymonitor-hybrid",
+  storageBucket: "airqualitymonitor-hybrid.appspot.com",
+  messagingSenderId: "463381814233",
+  appId: "1:463381814233:web:ab966b47b016f4c52a97c8",
+  databaseURL: "https://airqualitymonitor-hybrid-default-rtdb.europe-west1.firebasedatabase.app"
 };
 
+// ======================
+// MODALITÀ: SIMULAZIONE O FIREBASE
+// ======================
 let simulation = true;
 document.getElementById("toggleMode").addEventListener("change", (e) => {
   simulation = !e.target.checked;
   document.getElementById("mode").textContent = simulation ? "Simulazione" : "Firebase Live";
 });
 
-// Variabili per Firebase, inizializzate solo quando necessario
-let app;
-let db;
+// ======================
+// VARIABILI FIREBASE
+// ======================
+let app; // istanza dell'app Firebase
+let db;  // riferimento al Realtime Database
 
-/**
- * Inizializza Firebase una sola volta.
- * Se è già inizializzato, utilizza l'istanza esistente.
- */
+// Inizializza Firebase una sola volta
 function initFirebase() {
   if (!firebase.apps.length) {
     app = firebase.initializeApp(firebaseConfig);
     db = firebase.database();
-    console.log("Firebase inizializzato correttamente.");
+    console.log("Firebase inizializzato.");
   } else {
     app = firebase.app();
     db = firebase.database();
-    console.log("Firebase già inizializzato, uso l'istanza esistente.");
+    console.log("Firebase già inizializzato, uso istanza esistente.");
   }
 }
 
-// Genera dati di simulazione
+// ======================
+// FUNZIONI DI SIMULAZIONE
+// ======================
 function getRandom(min, max) {
   return +(Math.random() * (max - min) + min).toFixed(1);
 }
+
 function updateSimulation() {
   return {
     fisso: {
@@ -64,35 +71,45 @@ function updateSimulation() {
   };
 }
 
-// Mostra i dati a schermo
+// ======================
+// AGGIORNA IL DOM CON I DATI
+// ======================
 function display(data) {
+  // Chiavi da mostrare
   const keys = ["pm25", "voc", "co2", "temp", "hum", "press", "light", "charge"];
+
   keys.forEach((k) => {
     const fixed = data.fisso?.[k] ?? "--";
     const mobile = data.mobile?.[k] ?? "--";
-    document.getElementById(k)?.textContent = `${fixed} / ${mobile}`;
+    document.getElementById(k).textContent = `${fixed} / ${mobile}`;
   });
 }
 
-// Recupera i dati (simulati o da Firebase)
+// ======================
+// RECUPERA DATI (SIMULAZIONE O FIREBASE)
+// ======================
 function fetchData() {
   if (simulation) {
-    // Dati casuali
-    display(updateSimulation());
+    // Modalità SIMULAZIONE
+    const simulatedData = updateSimulation();
+    display(simulatedData);
   } else {
-    // Inizializza Firebase se non è già stato fatto
-    initFirebase();
-    // Leggi una volta i dati dal Realtime Database
-    db.ref("/monitor").once("value").then((snapshot) => {
-      const data = snapshot.val() || {};
-      display(data);
-    }).catch((error) => {
-      console.error("Errore connessione:", error);
-      document.getElementById("mode").textContent = "Errore connessione";
-    });
+    // Modalità FIREBASE
+    initFirebase(); // inizializza se non già fatto
+    db.ref("/monitor").once("value")
+      .then((snapshot) => {
+        const data = snapshot.val() || {};
+        display(data);
+      })
+      .catch((error) => {
+        console.error("Errore connessione:", error);
+        document.getElementById("mode").textContent = "Errore connessione";
+      });
   }
 }
 
-// Aggiorna i dati ogni 5 secondi
+// ======================
+// AVVIO PERIODICO
+// ======================
 setInterval(fetchData, 5000);
 fetchData();
