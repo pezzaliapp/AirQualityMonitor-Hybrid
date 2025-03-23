@@ -10,7 +10,7 @@ const firebaseConfig = {
 };
 
 let simulation = true;
-document.getElementById("toggleMode").addEventListener("change", e => {
+document.getElementById("toggleMode").addEventListener("change", (e) => {
   simulation = !e.target.checked;
   document.getElementById("mode").textContent = simulation ? "Simulazione" : "Firebase Live";
 });
@@ -68,7 +68,7 @@ function updateSimulation() {
 // Mostra i dati a schermo e aggiorna i grafici
 function display(data) {
   const keys = ["pm25", "voc", "co2", "temp", "hum", "press", "light", "charge"];
-  keys.forEach(k => {
+  keys.forEach((k) => {
     const fixed = data.fisso?.[k] ?? "--";
     const mobile = data.mobile?.[k] ?? "--";
     document.getElementById(k)?.textContent = `${fixed} / ${mobile}`;
@@ -88,7 +88,7 @@ function fetchData() {
     // Inizializza Firebase se non è già stato fatto
     initFirebase();
     // Leggi una volta i dati dal Realtime Database
-    db.ref("/monitor").once("value").then(snapshot => {
+    db.ref("/monitor").once("value").then((snapshot) => {
       const data = snapshot.val() || {};
       display(data);
     }).catch((error) => {
@@ -99,11 +99,11 @@ function fetchData() {
 }
 
 // Configura i grafici con Chart.js
-const labels = Array.from({length: 10}, (_, i) => `T-${9 - i}s`);
+const labels = Array.from({ length: 10 }, (_, i) => `T-${9 - i}s`);
 
 function createChart(id, label, colors) {
-  return new Chart(document.getElementById(id).getContext('2d'), {
-    type: 'line',
+  return new Chart(document.getElementById(id).getContext("2d"), {
+    type: "line",
     data: {
       labels: labels,
       datasets: [
@@ -112,25 +112,25 @@ function createChart(id, label, colors) {
           data: Array(10).fill(null),
           borderColor: colors[0],
           backgroundColor: colors[0] + "33",
-          fill: true
+          fill: true,
         },
         {
           label: label + " (Mobile)",
           data: Array(10).fill(null),
           borderColor: colors[1],
           backgroundColor: colors[1] + "33",
-          fill: true
-        }
-      ]
+          fill: true,
+        },
+      ],
     },
     options: {
       responsive: true,
       scales: {
         y: {
-          beginAtZero: true
-        }
-      }
-    }
+          beginAtZero: true,
+        },
+      },
+    },
   });
 }
 
