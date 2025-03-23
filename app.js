@@ -16,7 +16,7 @@ document.getElementById("toggleMode").addEventListener("change", e => {
 });
 
 function getRandom(min, max) {
-  return (Math.random() * (max - min) + min).toFixed(1);
+  return +(Math.random() * (max - min) + min).toFixed(1);
 }
 
 function updateSimulation() {
@@ -49,8 +49,12 @@ function display(data) {
   keys.forEach(k => {
     const fixed = data.fisso?.[k] ?? "--";
     const mobile = data.mobile?.[k] ?? "--";
-    document.getElementById(k).textContent = `${fixed} / ${mobile}`;
+    document.getElementById(k)?.textContent = `${fixed} / ${mobile}`;
   });
+
+  shiftAndPush(chartPM, data.fisso?.pm25 || 0, data.mobile?.pm25 || 0);
+  shiftAndPush(chartTemp, data.fisso?.temp || 0, data.mobile?.temp || 0);
+  shiftAndPush(chartCO2, data.fisso?.co2 || 0, data.mobile?.co2 || 0);
 }
 
 function fetchData() {
@@ -67,5 +71,33 @@ function fetchData() {
     });
   }
 }
+
+// Chart.js setup
+const labels = Array.from({length: 10}, (_, i) => `T-${9 - i}s`);
+function createChart(id, label, colors) {
+  return new Chart(document.getElementById(id).getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        { label: label + " (Fisso)", data: Array(10).fill(null), borderColor: colors[0], backgroundColor: colors[0] + "33", fill: true },
+        { label: label + " (Mobile)", data: Array(10).fill(null), borderColor: colors[1], backgroundColor: colors[1] + "33", fill: true }
+      ]
+    },
+    options: { responsive: true, scales: { y: { beginAtZero: true } } }
+  });
+}
+const chartPM = createChart("chartPM", "PM2.5", ["#3366cc", "#dc3912"]);
+const chartTemp = createChart("chartTemp", "Temperatura", ["#109618", "#ff9900"]);
+const chartCO2 = createChart("chartCO2", "CO₂ eq", ["#990099", "#0099c6"]);
+
+function shiftAndPush(chart, val1, val2) {
+  chart.data.datasets[0].data.push(val1);
+  chart.data.datasets[1].data.push(val2);
+  chart.data.datasets[0].data.shift();
+  chart.data.datasets[1].data.shift();
+  chart.update();
+}
+
 setInterval(fetchData, 5000);
 fetchData();
