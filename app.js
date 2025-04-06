@@ -1,25 +1,44 @@
-document.getElementById("connectBtn").addEventListener("click", async () => {
-  const status = document.getElementById("status");
-  status.textContent = "";
+let port;
+let reader;
+let keepReading = true;
 
+async function connectSerial() {
   try {
-    const port = await navigator.serial.requestPort();
+    port = await navigator.serial.requestPort();
     await port.open({ baudRate: 9600 });
-    const decoder = new TextDecoder();
-    const reader = port.readable.getReader();
 
-    while (true) {
+    const decoder = new TextDecoderStream();
+    const inputDone = port.readable.pipeTo(decoder.writable);
+    const inputStream = decoder.readable;
+
+    reader = inputStream.getReader();
+
+    document.getElementById("status").textContent = "Sensore connesso!";
+
+    while (keepReading) {
       const { value, done } = await reader.read();
       if (done) break;
-
-      // Debug: stampa byte grezzi come esadecimale
-      let hex = "";
-      for (let i = 0; i < value.length; i++) {
-        hex += value[i].toString(16).padStart(2, "0") + " ";
-      }
-      console.log("Raw data:", hex);
+      if (value) parseData(value);
     }
+
+    reader.releaseLock();
   } catch (err) {
-    status.textContent = "Errore: " + err.message;
+    alert("Errore di connessione: " + err);
   }
-});
+}
+
+function parseData(data) {
+  // SDS011 invia 10 byte binari. Cerchiamo quelli giusti nel testo decodificato.
+  const bytes = Array.from(data).map(c => c.charCodeAt(0));
+  for (let i = 0; i < bytes.length - 9; i++) {
+    if (bytes[i] === 0xAA && bytes[i + 1] === 0xC0 && bytes[i + 9] === 0xAB) {
+      const pm25 = (bytes[i + 2] + bytes[i + 3] * 256) / 10.0;
+      const pm10 = (bytes[i + 4] + bytes[i + 5] * 256) / 10.0;
+
+      document.getElementById("pm25").textContent = pm25.toFixed(1);
+      document.getElementById("pm10").textContent = pm10.toFixed(1);
+    }
+  }
+}
+
+document.getElementById("connectButton").addEventListener("click", connectSerial);
