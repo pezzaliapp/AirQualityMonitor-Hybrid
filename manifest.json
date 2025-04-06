@@ -1,9 +1,20 @@
 {
-  "name": "AirQuality Monitor",
-  "short_name": "AirQuality",
+  "name": "AirQuality Monitor USB",
+  "short_name": "AirQualityUSB",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "description": "PWA per monitoraggio qualità dell'aria con dati da ESP32 o simulazione.",
-  "icons": []
+  "background_color": "#f0f0f0",
+  "theme_color": "#3366cc",
+  "icons": [
+    {
+      "src": "icon/AirQualityMonitor-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon/AirQualityMonitor-5122.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
