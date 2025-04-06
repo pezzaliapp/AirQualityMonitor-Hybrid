@@ -3,38 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AirQuality Monitor – Firebase Edition</title>
-  <link rel="manifest" href="manifest.json" />
+  <title>AirQuality Monitor – USB</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
 </head>
 <body>
-  <div id="alert-box" style="padding:1em; margin:1em; font-weight:bold; text-align:center; border-radius:8px;">Stato qualità aria in caricamento...</div>
-  <h1>AirQuality Monitor – Firebase Edition</h1>
-  <div class="status-bar">
-    🧪 Modalità: <span id="mode">Simulazione</span>
-    <label><input type="checkbox" id="toggleMode" /> Usa Firebase</label>
-    ⚡ Alimentazione: <span id="power">USB</span>
-    🌐 Connessione: <span id="conn">Offline</span>
-    🌍 Ambiente: <span id="env">Interno</span>
-  </div>
-  <div class="grid">
-    <div class="card">
-      <h2>Qualità dell'Aria</h2>
-      <p>PM2.5 (Fisso/Mobile): <span id="pm25">-- / --</span></p>
-      <p>VOC (Fisso/Mobile): <span id="voc">-- / --</span></p>
-      <p>CO₂eq (Fisso/Mobile): <span id="co2">-- / --</span></p>
-    </div>
-    <div class="card">
-      <h2>Ambiente</h2>
-      <p>Temperatura: <span id="temp">-- / --</span> °C</p>
-      <p>Umidità: <span id="hum">-- / --</span> %</p>
-      <p>Pressione: <span id="press">-- / --</span> hPa</p>
-    </div>
-    <div class="card">
-      <h2>Energia Solare</h2>
-      <p>Luce: <span id="light">-- / --</span> lux</p>
-      <p>Carica solare: <span id="charge">-- / --</span></p>
-    </div>
+  <h1>🌫️ AirQuality Monitor – SDS011 via USB</h1>
+  <button id="connect">🔌 Connetti al sensore</button>
+  <div class="output">
+    <p><strong>PM2.5:</strong> <span id="pm25">--</span> µg/m³</p>
+    <p><strong>PM10:</strong> <span id="pm10">--</span> µg/m³</p>
   </div>
   <script src="app.js"></script>
 </body>
