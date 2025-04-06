@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AirQuality Monitor – USB</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>AirQuality Monitor – SDS011 USB</title>
   <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🌫️ AirQuality Monitor – SDS011 via USB</h1>
-  <button id="connect">🔌 Connetti al sensore</button>
+  <h1>🌫️ AirQuality Monitor</h1>
+  <p>Versione: <strong>SDS011 via USB</strong></p>
+  <button id="connectBtn">🔌 Connetti al sensore</button>
   <div class="output">
-    <p><strong>PM2.5:</strong> <span id="pm25">--</span> µg/m³</p>
-    <p><strong>PM10:</strong> <span id="pm10">--</span> µg/m³</p>
+    <p>PM2.5: <span id="pm25">--</span> µg/m³</p>
+    <p>PM10: <span id="pm10">--</span> µg/m³</p>
+    <p id="status" style="color: red;"></p>
   </div>
   <script src="app.js"></script>
 </body>
