@@ -6,6 +6,8 @@
   <title>AirQuality Monitor – SDS011 USB</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
+  <!-- Carica Chart.js da CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <h1>🌫️ AirQuality Monitor</h1>
@@ -15,6 +17,9 @@
     <p>PM2.5: <span id="pm25">--</span> µg/m³</p>
     <p>PM10: <span id="pm10">--</span> µg/m³</p>
     <p id="status" style="color: red;"></p>
+  </div>
+  <div class="chart-container">
+    <canvas id="chart"></canvas>
   </div>
   <script src="app.js"></script>
 </body>
