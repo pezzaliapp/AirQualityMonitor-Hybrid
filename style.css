@@ -18,3 +18,8 @@ button {
   font-size: 1.2rem;
   margin-top: 2rem;
 }
+.chart-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 2rem auto;
+}
