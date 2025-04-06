@@ -1,87 +1,35 @@
-const firebaseConfig = {
-  apiKey: "AIzaSyApWxpeL4qR3YXyTLqYEykaRSvN7n_ZFFQ",
-  authDomain: "airqualitymonitor-hybrid.firebaseapp.com",
-  projectId: "airqualitymonitor-hybrid",
-  storageBucket: "airqualitymonitor-hybrid.appspot.com",
-  messagingSenderId: "463381814233",
-  appId: "1:463381814233:web:ab966b47b016f4c52a97c8",
-  databaseURL: "https://airqualitymonitor-hybrid-default-rtdb.europe-west1.firebasedatabase.app"
-};
+let port;
+let reader;
 
-let simulation = true;
-document.getElementById("toggleMode").addEventListener("change", e => {
-  simulation = !e.target.checked;
-  document.getElementById("mode").textContent = simulation ? "Simulazione" : "Firebase Live";
-});
+document.getElementById("connect").addEventListener("click", async () => {
+  try {
+    port = await navigator.serial.requestPort();
+    await port.open({ baudRate: 9600 });
 
-function getRandom(min, max) {
-  return +(Math.random() * (max - min) + min).toFixed(1);
-}
+    const decoder = new TextDecoderStream();
+    const inputDone = port.readable.pipeTo(decoder.writable);
+    const inputStream = decoder.readable;
 
-function updateSimulation() {
-  return {
-    fisso: {
-      pm25: getRandom(10, 40),
-      voc: getRandom(0.2, 0.6),
-      co2: getRandom(400, 800),
-      temp: getRandom(20, 26),
-      hum: getRandom(40, 60),
-      press: getRandom(990, 1020),
-      light: getRandom(100, 600),
-      charge: "Attiva"
-    },
-    mobile: {
-      pm25: getRandom(15, 55),
-      voc: getRandom(0.4, 1.0),
-      co2: getRandom(600, 1200),
-      temp: getRandom(21, 29),
-      hum: getRandom(30, 70),
-      press: getRandom(995, 1025),
-      light: getRandom(300, 900),
-      charge: "Solare"
+    reader = inputStream.getReader();
+    let buffer = [];
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      for (let char of value) {
+        buffer.push(char.charCodeAt(0));
+        if (buffer.length >= 10) {
+          if (buffer[0] === 0xAA && buffer[1] === 0xC0 && buffer[9] === 0xAB) {
+            let pm25 = (buffer[2] + buffer[3] * 256) / 10.0;
+            let pm10 = (buffer[4] + buffer[5] * 256) / 10.0;
+            document.getElementById("pm25").textContent = pm25.toFixed(1);
+            document.getElementById("pm10").textContent = pm10.toFixed(1);
+          }
+          buffer = [];
+        }
+      }
     }
-  };
-}
-
-function display(data) {
-  updateAlerts(data);
-  const keys = ["pm25", "voc", "co2", "temp", "hum", "press", "light", "charge"];
-  keys.forEach(k => {
-    const fixed = data.fisso?.[k] ?? "--";
-    const mobile = data.mobile?.[k] ?? "--";
-    document.getElementById(k).textContent = `${fixed} / ${mobile}`;
-  });
-}
-
-function fetchData() {
-  if (simulation) {
-    display(updateSimulation());
-  } else {
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-    db.ref("/monitor").once("value").then(snapshot => {
-      const data = snapshot.val() || {};
-      display(data);
-    }).catch(() => {
-      document.getElementById("mode").textContent = "Errore connessione";
-    });
+  } catch (err) {
+    alert("Errore: " + err);
   }
-}
-
-setInterval(fetchData, 5000);
-fetchData();
-
-function updateAlerts(data) {
-  const pm25 = data.fisso?.pm25 ?? 0;
-  const alertBox = document.getElementById("alert-box");
-  if (pm25 <= 25) {
-    alertBox.textContent = "Qualità dell'aria buona";
-    alertBox.style.backgroundColor = "#c8e6c9"; // Verde
-  } else if (pm25 <= 50) {
-    alertBox.textContent = "Qualità dell'aria moderata";
-    alertBox.style.backgroundColor = "#fff9c4"; // Giallo
-  } else {
-    alertBox.textContent = "Qualità dell'aria scarsa";
-    alertBox.style.backgroundColor = "#ffcdd2"; // Rosso
-  }
-}
+});
